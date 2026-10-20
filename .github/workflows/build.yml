@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: unzip -q PaPudian-native.zip -d proj
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -14,9 +15,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon
+      - run: cd proj && gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: PaPudian-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: proj/app/build/outputs/apk/debug/app-debug.apk
